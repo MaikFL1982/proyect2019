@@ -1,0 +1,82 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  background-color: #31313a;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center; }
+
+.main-wrapper {
+  width: 100%;
+  max-width: 1300px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  position: relative;
+  color: #fff; }
+  .main-wrapper .nav__wrapper {
+    width: 70px;
+    height: auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: nowrap;
+    -moz-flex-wrap: nowrap;
+    -ms-flex-wrap: none;
+    flex-wrap: nowrap; }
+    .main-wrapper .nav__wrapper .nav__option {
+      width: 100%;
+      height: 70px;
+      background-color: #17171b;
+      margin-bottom: 1em; }
+    .main-wrapper .nav__wrapper .nav__ul {
+      width: 100%;
+      height: auto;
+      background-color: #17171b; }
+      .main-wrapper .nav__wrapper .nav__ul li {
+        width: 100%;
+        height: 70px; }
+        .main-wrapper .nav__wrapper .nav__ul li#about {
+          width: 100%; }
+        .main-wrapper .nav__wrapper .nav__ul li#resume {
+          width: 100%; }
+        .main-wrapper .nav__wrapper .nav__ul li#works {
+          width: 100%; }
+        .main-wrapper .nav__wrapper .nav__ul li#blog {
+          width: 100%; }
+        .main-wrapper .nav__wrapper .nav__ul li#contact {
+          width: 100%; }

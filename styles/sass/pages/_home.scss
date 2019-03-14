@@ -1,0 +1,40 @@
+.main-wrapper{
+    width: 100%;
+    max-width: 1300px;
+    @include flexbox;
+    @include flex-direction(row);
+    position: relative;
+    color: #fff;
+
+    .nav__wrapper{
+        width: 70px;
+        height: auto;
+        @include flexbox;
+        @include flex-direction(column);
+        @include flex-wrap(nowrap);
+
+        .nav__option{
+            width: 100%;
+            height: 70px;
+            background-color: #17171b;
+            margin-bottom: 1em;
+        }
+
+        .nav__ul{
+            width: 100%;
+            height: auto;
+            background-color: #17171b;
+
+            li{
+                width: 100%;
+                height: 70px;
+
+                &#about{width: 100%;}
+                &#resume{width: 100%;}
+                &#works{width: 100%;}
+                &#blog{width: 100%;}
+                &#contact{width: 100%;}
+            }
+        }
+    }
+}

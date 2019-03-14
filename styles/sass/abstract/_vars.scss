@@ -1,0 +1,40 @@
+$breakpoints: (
+  'sm': 576px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1080px,
+  'xxl': 1280px,
+  'xxxl': 1520px
+)!default;
+
+$max-container-width: 1300px;
+$max-container-medium-width: 900px;
+$max-container-small-width: 768px;
+
+$header-height: 90px;
+$footer-height: 210px;
+$footer-height--mobile: 240px;
+$main-height: calc(100vh - #{$header-height + $footer-height});
+$main-height--mobile: calc(100vh - #{$footer-height--mobile});
+
+$font-family: 'gotham';
+$font-color: #fff;
+$font-size: 16px;
+$h-font-family: $font-family;
+
+$baseline: 1.250em;
+$baseline-margin: 0.875em;
+
+$book: 400;
+$bold: 600;
+
+$h1: 3.998em;
+$h2: 2.827em;
+$h3: 1.999em;
+$h4: 1.414em;
+$h5: 1em;
+$h6: 1em;
+
+$animation-duration: 250ms;
+
+$btn-width: 165px !default;

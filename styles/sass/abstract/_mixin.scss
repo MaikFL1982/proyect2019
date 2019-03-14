@@ -1,0 +1,289 @@
+// FLUID CLASES
+// =================================================
+// Create fluid width classes of 'step'% width until reaching the 'max'
+@mixin widthClasses($max, $step) {
+    @for $i from 1 through floor($max/$step) {
+      $i : $i * $step;
+      .width#{$i}{
+        width: percentage($i/$max);
+      }
+    }
+  }  
+  
+  // CONVERT PX TO EM
+  // =================================================
+  @function em($pixels, $base: $browser-context) {
+    @if (unitless($pixels)) {
+      $pixels: $pixels * 1px;
+    }
+  
+    @if (unitless($base)) {
+      $base: $base * 1px;
+    }
+  
+    @return $pixels / $base * 1em;
+  }
+    
+  
+  // CONVERT PX TO REM
+  // =================================================
+  @function rem($pixels) {
+    @if (unitless($pixels)) {
+      $pixels: $pixels * 1px;
+    }
+  
+    @return $pixels / $browser-context * 1rem;
+  }
+  
+    
+  // BACKGROUND
+  // =================================================
+  @mixin background($position: center, $size: contain, $repeat: no-repeat) {
+      background: {
+          position: $position;
+          repeat: $repeat;
+          size: $size;
+      }
+  }
+    
+  // FLUID TYPOGRAPHY
+  // =================================================
+  @mixin fluid-type($properties, $min-vw, $max-vw, $min-value, $max-value) {
+      & {
+          @each $property in $properties {
+              #{$property}: $min-value;
+          }
+  
+          @media screen and (min-width: $min-vw) {
+              @each $property in $properties {
+                  #{$property}: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+              }
+          }
+  
+          @media screen and (min-width: $max-vw) {
+              @each $property in $properties {
+                  #{$property}: $max-value;
+              }
+          }
+      }
+  }
+  @function strip-unit($value) {
+      @return $value / ($value * 0 + 1);
+  }
+  
+
+  // MEDIA QUERIES
+  // =================================================
+  @mixin media($breakpoint, $rule: 'max', $dimension: 'width') {
+    $rules: 'max', 'min';
+    $dimensions: 'width', 'height';
+    $units: 'px', 'em', 'rem', '%', 'vw', 'vh';
+    @if not contains($rules, $rule) {
+      $rule: 'max';
+    }
+    @if not contains($dimensions, $dimension) {
+      $rule: 'width';
+    }
+  
+    @if type-of($breakpoint)==number {
+      @if unitless($breakpoint) {
+        @media (#{$rule}-#{$dimension}: #{$breakpoint + 'px'}) {
+          @content;
+        }
+      }@else if contains($units, unit($breakpoint)){
+        @media (#{$rule}-#{$dimension}: #{$breakpoint}) {
+          @content;
+        }
+      }@else {
+        @error "Invalid units provided";
+      }
+    }@else if variable_exists(breakpoints){
+      @if map-has-key($breakpoints, $breakpoint) {
+        @media (#{$rule}-#{$dimension}: #{inspect(map-get($breakpoints, $breakpoint))}) {
+          @content;
+        }
+      }@else {
+         @error "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "+"Available breakpoints are: #{map-keys($breakpoints)}.";
+      }
+    }@else if variable_exists(breakpoint){
+      @media (#{$rule}-#{$dimension}: #{$breakpoint}) {
+        @content;
+      }
+    }@else {
+      @error "Neither $breakpoints map nor variable provided are defined";
+    }
+  }
+  
+  @function contains($list, $item) {
+    @return index($list, $item) !=null;
+  }
+  
+
+  // PREFIX - MOZ, WEBKIT, MS, O
+  // =================================================
+  // Create fluid width classes of 'step'% width until reaching the 'max'
+  @mixin prefix($property, $value, $prefixes: ()) {
+    @if length($prefixes) == 0 {
+      $prefixes: webkit;
+    }
+    @each $prefix in $prefixes {
+      #{'-' + $prefix + '-' + $property}: $value;
+    }
+   
+    // Output standard non-prefixed declaration
+    #{$property}: $value;
+  }
+
+    
+  // PREFIX - ANIMATION KEYFRAMES
+  // =================================================
+  @mixin keyframes($animationName) {
+      @-webkit-keyframes #{$animationName} {
+          @content;
+      }
+      @-moz-keyframes #{$animationName} {
+          @content;
+      }
+      @-o-keyframes #{$animationName} {
+          @content;
+      }
+      @keyframes #{$animationName} {
+          @content;
+      }
+  }
+  
+  @mixin animation($animate...) {
+      $max: length($animate);
+      $animations: '';
+      @for $i from 1 through $max {
+          $animations: #{$animations + nth($animate, $i)};
+          @if $i < $max {
+              $animations: #{$animations + ", "};
+          }
+      }
+      -webkit-animation: $animations;
+      -moz-animation: $animations;
+      -ms-animation: $animations;
+      animation: $animations;
+  }
+  
+
+  // POSITION
+  // =================================================
+  @mixin position($vertical, $horizontal: NULL) {
+      @if $vertical !="none" {
+          position: absolute;
+      }
+      @else {
+          position: inherit;
+          top: inherit;
+          bottom: inherit;
+          left: inherit;
+          right: inherit;
+          transform: translate(0, 0);
+      }
+      @if $horizontal==NULL {
+          @if $vertical=="center" {
+              top: 50%;
+              left: 50%;
+              @include prefix(transform, translate(-50%, -50%));
+          }
+          @else if $vertical=="top" {
+              top: 0;
+          }
+          @else if $vertical=="bottom" {
+              bottom: 0;
+          }
+          @else if $vertical=="left" {
+              left: 0;
+          }
+          @else if $vertical=="right" {
+              right: 0;
+          }
+      }
+      @if $horizontal !=NULL {
+          @if $vertical=="center" {
+              top: 50%;
+              @include prefix(transform, translate(0, -50%));
+              @if $horizontal=="center" {
+                  left: 50%;
+                  @include prefix(transform, translate(-50%, 0));
+              }
+              @if $horizontal=="left" {
+                  left: 0;
+              }
+              @else if $horizontal=="right" {
+                  right: 0;
+              }
+          }
+          @if $vertical=="top" {
+              top: 0;
+              @if $horizontal=="center" {
+                  left: 50%;
+                  @include prefix(transform, translate(-50%, 0));
+              }
+              @else if $horizontal=="left" {
+                  left: 0;
+              }
+              @else if $horizontal=="right" {
+                  right: 0;
+              }
+          }
+          @if $vertical=="bottom" {
+              bottom: 0;
+              @if $horizontal=="center" {
+                  left: 50%;
+                  @include prefix(transform, translate(-50%, 0));
+              }
+              @else if $horizontal=="left" {
+                  left: 0;
+              }
+              @else if $horizontal=="right" {
+                  right: 0;
+              }
+          }
+      }
+  }
+  
+  
+  // breakpoints
+     
+  $S:     480px;   
+  $M:     768px;     
+  $L:     1100px;     
+  
+  // media queries
+  
+  @mixin MQ($canvas) {
+    @if $canvas == S {
+     @media only screen and (min-width: $S) { @content; } 
+    }
+    @else if $canvas == M {
+     @media only screen and (min-width: $M) { @content; } 
+    }
+    @else if $canvas == L {
+     @media only screen and (min-width: $L) { @content; } 
+    }
+  }
+  
+  // center vertically and/or horizontally an absolute positioned element
+  
+  @mixin center($xy:xy) {
+      @if $xy == xy {
+        left: 50%;
+        top: 50%;
+        bottom: auto;
+        right: auto;
+        transform: translateX(-50%) translateY(-50%);
+      }
+      @else if $xy == x {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+      }
+      @else if $xy == y {
+        top: 50%;
+        bottom: auto;
+        transform: translateY(-50%);
+      }
+    }
